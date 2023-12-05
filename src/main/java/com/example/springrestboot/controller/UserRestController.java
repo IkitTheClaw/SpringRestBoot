@@ -35,10 +35,10 @@ public class UserRestController {
     public ResponseEntity<User> save(
             @RequestParam String name,
             @RequestParam String email,
-            @RequestParam String password
-
-    ) {
-        User user = new User(name, email, password);
+            @RequestParam String password,
+            @RequestParam Set<Role> roles)
+        {
+        User user = new User(name, email, password,roles);
         userService.save(user);
         return ResponseEntity.ok(user);
     }

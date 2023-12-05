@@ -21,10 +21,11 @@ public class User implements UserDetails {
    private Set<Role> authorities = new HashSet<>();
 
 
-    public User(String name, String email, String password) {
+    public User(String name, String email, String password,Set<Role> roles) {
         this.name = name;
         this.email = email;
         this.password = password;
+        this.authorities = roles;
 
     }
 

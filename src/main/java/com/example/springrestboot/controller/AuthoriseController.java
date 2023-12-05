@@ -1,5 +1,6 @@
 package com.example.springrestboot.controller;
 
+import com.example.springrestboot.mapper.UserMapper;
 import com.example.springrestboot.model.dto.UserRegistrationDTO;
 import com.example.springrestboot.model.User;
 import com.example.springrestboot.services.UserService;
@@ -16,10 +17,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class AuthoriseController {
 
     private final UserService userService;
+    private final UserMapper userMapper;
 
     @Autowired
-    public AuthoriseController(UserService userService) {
+    public AuthoriseController(UserService userService, UserMapper userMapper) {
         this.userService = userService;
+        this.userMapper = userMapper;
     }
 
     @GetMapping("/login")
@@ -40,7 +43,7 @@ public class AuthoriseController {
     public ResponseEntity<String> registerUser(@RequestBody UserRegistrationDTO userRegistrationDTO) {
 
         // Создаем нового пользователя
-        User newUser = new User();
+        User newUser = userMapper.toUser(userRegistrationDTO);
 
 
 

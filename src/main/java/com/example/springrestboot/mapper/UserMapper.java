@@ -5,6 +5,8 @@ import com.example.springrestboot.model.dto.UserRegistrationDTO;
 import com.example.springrestboot.services.RoleService;
 import org.springframework.stereotype.Component;
 
+import java.util.stream.Collectors;
+
 @Component
 public class UserMapper {
     private final RoleService roleService;
@@ -17,8 +19,12 @@ public class UserMapper {
         return new User(
                 userDto.getName(),
                 userDto.getEmail(),
-                userDto.getPassword()
-
+                userDto.getPassword(),
+                userDto.getRoleSet()
+                        .stream()
+                        .map(roleName -> roleService.findByName(roleName).orElseThrow())
+                        .peek(System.out::println)
+                        .collect(Collectors.toSet())
         );
     }
 }

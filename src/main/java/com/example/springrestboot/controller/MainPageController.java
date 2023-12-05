@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @RequestMapping("hello")
 @Controller
-public class UserController {
+public class MainPageController {
     @GetMapping
     public String sayHello() {
         return "helloPage";

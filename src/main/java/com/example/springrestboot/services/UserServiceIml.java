@@ -4,6 +4,7 @@ import com.example.springrestboot.model.User;
 import com.example.springrestboot.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -11,11 +12,13 @@ import java.util.List;
 @Transactional
 @Component
 public class UserServiceIml implements UserService {
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     private final UserRepository userRepository;
 
     @Autowired
-    public UserServiceIml(UserRepository userRepository) {
+    public UserServiceIml(BCryptPasswordEncoder bCryptPasswordEncoder, UserRepository userRepository) {
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.userRepository = userRepository;
     }
 
@@ -39,6 +42,7 @@ public class UserServiceIml implements UserService {
 
     @Override
     public User save(User user) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
     //реализация метода сохраняющий пользователя в бд

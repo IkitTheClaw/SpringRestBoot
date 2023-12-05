@@ -8,12 +8,13 @@ public class UserRegistrationDTO {
     private String name;
     private String email;
     private String password;
-    private Set<Role> roleSet;
+    private Set<String> roleSet;
 
-    public UserRegistrationDTO(String name, String email, String password) {
+    public UserRegistrationDTO(String name, String email, String password, Set<String> roles) {
         this.name = name;
         this.email = email;
         this.password = password;
+        this.roleSet = roles;
     }
 
     public String getName() {
@@ -40,11 +41,11 @@ public class UserRegistrationDTO {
         this.password = password;
     }
 
-    public Set<Role> getRoleSet() {
+    public Set<String> getRoleSet() {
         return roleSet;
     }
 
-    public void setRoleSet(Set<Role> roleSet) {
+    public void setRoleSet(Set<String> roleSet) {
         this.roleSet = roleSet;
     }
 }
