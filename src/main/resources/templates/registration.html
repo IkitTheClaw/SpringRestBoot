@@ -33,7 +33,7 @@
     </div>
 </form>
 <form th:action="@{/login}" method="GET">
-    <div><input type="submit" value="Registration"></div>
+    <div><input type="submit" value="LOGIN PAGE"></div>
 </form>
 
 <script>
@@ -46,7 +46,7 @@
         const role = document.getElementById('role').value;
 
         // Отправляем данные на сервер для регистрации
-        fetch('/registration', {
+        fetch('/rest/save', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
