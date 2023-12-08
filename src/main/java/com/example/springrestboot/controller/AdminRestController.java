@@ -13,12 +13,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/rest")
-public class UserRestController {
+public class AdminRestController {
     private final UserService userService;
     private final UserMapper userMapper;
 
     @Autowired
-    public UserRestController(UserService userService, UserMapper userMapper) {
+    public AdminRestController(UserService userService, UserMapper userMapper) {
         this.userService = userService;
         this.userMapper = userMapper;
     }
@@ -45,4 +45,22 @@ public class UserRestController {
         userService.deleteUserByUserid(id);
         return ResponseEntity.status(HttpStatus.OK).body("Пользователь удалён");
     }
+
+    @PostMapping("/update/{id}")
+    public ResponseEntity<String> updateUser(@PathVariable Long id,@RequestBody User user){
+        User updatingUser = userService.getUserById(id);
+
+        if (updatingUser != null) {
+            updatingUser.setName(user.getName());
+            updatingUser.setEmail(user.getEmail());
+            if (user.getPassword() != null && !user.getPassword().isBlank()) {
+                updatingUser.setPassword(user.getPassword());
+            }
+        userService.save(updatingUser);
+        }
+        return ResponseEntity.ok("Пользователь обновлён");
+    }
+    //сделать форму обновления
+    //разделить USER и ADMIN контроллеры
+    // ...
 }
