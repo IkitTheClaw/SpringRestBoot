@@ -46,7 +46,7 @@ public class AdminRestController {
         return ResponseEntity.status(HttpStatus.OK).body("Пользователь удалён");
     }
 
-    @PostMapping("/update/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<String> updateUser(@PathVariable Long id,@RequestBody User user){
         User updatingUser = userService.getUserById(id);
 
@@ -60,7 +60,7 @@ public class AdminRestController {
         }
         return ResponseEntity.ok("Пользователь обновлён");
     }
-    //сделать форму обновления
+    //сделать форму обновления +
     //разделить USER и ADMIN контроллеры
     // ...
 }
