@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>UserPage</title>
+</head>
+<body>
+<h1> hello</h1>
+  <br>
+
+  <button id="openModal">Найти всех Пользователей</button>
+  <div id="myModal" class="modal">
+    <ul id="userList"></ul>
+  </div>
+  <button id="search"> Найти пользователя</button>
+  <label for="searchName">Имя для поиска:</label>
+  <input type="text" id="searchName" name="name">
+</form>
+
+
+<script>
+  function openModalWithData(users) { // заполнение модального окна
+    const userList = document.getElementById("userList"); // получение переменной по айди
+    const modal = document.getElementById("myModal");   // получение переменной по айди
+    userList.innerHTML = ""; // Очищаем список перед отображением новых данных
+
+    // Добавляем каждого пользователя в список
+    users.forEach(user => {
+      const listItem = document.createElement("li"); // О что за элемент - где используется,как связан
+      // создание ненумерованого списка
+      listItem.textContent = "id:" + user.id + " Имя:" + user.name + ", Email:" + user.email;
+      // формулировка стиля заполнения модального окна
+      const deleteButton = document.createElement("button") // создание кнопки удаления
+      deleteButton.textContent = 'delete'  // заполнения кнопки удаления текстом
+      deleteButton.onclick = function () {   // наполнение кнопки функционалом
+        deleteUser(user.id)
+      }
+      listItem.appendChild(deleteButton)      //добавление элкмента кнопки в список атрибутов списка
+      userList.appendChild(listItem);         // присваивание атрибутов списка - списку
+    });
+
+    // Открываем модальное окно
+    modal.style.display = "block";
+  }
+
+  function deleteUser(id) {       //наполнение кнопки удаления функционалом
+    fetch("http://localhost:8080/api/user/delete/" + id, {     // обращение к эндпоинут с указанием типа метода
+      method: "DELETE"
+    })
+            .then(response => {     // затем - проверка что ответ от клиента пришёл правильный - если нет - выдать ошибку
+              // - если да - передать текст
+              if (!response.ok) {
+                console.error(response.body)
+              }
+              return response.text()
+            })
+            .then(data => {     // затем - отрыть обновлённое модальное окно
+              alert(data)
+              document.getElementById("openModal").click();
+            })
+  }
+
+  document.getElementById("openModal").onclick = function () {        // настройка кнопки открытия модального окна
+    // - обращение к ендпоинту ,получение ответа и открытие модального окна с информацией полученой от сервера(бд)
+    fetch("http://localhost:8080/api/user")
+            .then(response => response.json())
+            .then(data => {
+              openModalWithData(data);
+            })
+  };
+  document.getElementById("search").onclick= function () {
+    const word = document.getElementById("searchName").value
+    fetch("http://localhost:8080/api/user?word=" + word)
+            .then(response => response.json())
+            .then(data => {
+              openModalWithData(data);
+            })
+
+  };
+
+</script>
+
+</body>
+</html>

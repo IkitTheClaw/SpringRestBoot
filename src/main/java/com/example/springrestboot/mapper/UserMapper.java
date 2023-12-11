@@ -1,6 +1,7 @@
 package com.example.springrestboot.mapper;
 
 import com.example.springrestboot.exceptions.RoleNotFoundException;
+import com.example.springrestboot.model.Role;
 import com.example.springrestboot.model.User;
 import com.example.springrestboot.model.dto.UserDTO;
 import com.example.springrestboot.services.RoleService;
@@ -26,7 +27,15 @@ public class UserMapper {
                 userDto.getEmail(),
                 userDto.getPassword(),
                 Set.of(roleService.findByName(userDto.getRole()).orElseThrow(() -> new RoleNotFoundException("нет такой роли")))
+        );
+    }
 
+    public User toUser(UserDTO userDto, String role) {
+        return new User(
+                userDto.getName(),
+                userDto.getEmail(),
+                userDto.getPassword(),
+                Set.of(roleService.findByName(role).orElseThrow(() -> new RoleNotFoundException("нет такой роли")))
         );
     }
 }

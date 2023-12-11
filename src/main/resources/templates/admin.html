@@ -10,16 +10,29 @@
 
 <h1>Создать пользователя</h1>
 <form id="userForm">
-    <label for="name">Имя:</label>
-    <input type="text" id="name" name="name">
+    <div>
+        <label for="name">Имя:</label>
+        <input type="text" id="name" name="name">
+    </div>
+    <div>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email">
+    </div>
+    <div>
+        <label for="password">Пароль:</label>
+        <input type="password" id="password" name="password">
+    </div>
+    <div>
+        <label for="role">Роль:</label>
+        <select id="role" name="role">
+            <option value="USER">Пользователь</option>
+            <option value="ADMIN">Администратор</option>
+        </select>
+    </div>
     <br>
-    <br>
-    <label for="email">Email:</label>
-    <input type="text" id="email" name="email">
-    <br>
-    <input type="submit" value="Создать">
-
-</form>
+    <div>
+        <button type="submit">Зарегистрировать</button>
+    </div>
 <br>
 
 <button id="openModal">Найти всех Пользователей</button>
@@ -29,7 +42,7 @@
 <button id="search"> Найти пользователя</button>
 <label for="searchName">Имя для поиска:</label>
 <input type="text" id="searchName" name="name">
-
+</form>
 
 
 <script>
@@ -58,7 +71,7 @@
     }
 
     function deleteUser(id) {       //наполнение кнопки удаления функционалом
-        fetch("http://localhost:8080/rest/delete/" + id, {     // обращение к эндпоинут с указанием типа метода
+        fetch("http://localhost:8080/api/admin/delete/" + id, {     // обращение к эндпоинут с указанием типа метода
             method: "DELETE"
         })
             .then(response => {     // затем - проверка что ответ от клиента пришёл правильный - если нет - выдать ошибку
@@ -76,7 +89,7 @@
 
     document.getElementById("openModal").onclick = function () {        // настройка кнопки открытия модального окна
         // - обращение к ендпоинту ,получение ответа и открытие модального окна с информацией полученой от сервера(бд)
-        fetch("http://localhost:8080/rest")
+        fetch("http://localhost:8080/api/admin")
             .then(response => response.json())
             .then(data => {
                 openModalWithData(data);
@@ -84,7 +97,7 @@
     };
     document.getElementById("search").onclick= function () {
         const word = document.getElementById("searchName").value
-        fetch("http://localhost:8080/rest?word=" + word)
+        fetch("http://localhost:8080/api/admin?word=" + word)
             .then(response => response.json())
             .then(data => {
                 openModalWithData(data);
@@ -97,27 +110,38 @@
 <!--поисковик-->
 
 <script>
-    document.getElementById("userForm").addEventListener("submit", function (event) {
-        event.preventDefault();    // предотвращение стандартного поведения страницы (перезагрузки)
+    document.getElementById('userForm').addEventListener('submit', function(event) {
+        event.preventDefault();
 
-        const name = document.getElementById("name").value;       // создание констант для отправки в фетч запросе
-        const email = document.getElementById("email").value;
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const role = document.getElementById('role').value;
 
-        fetch("/rest/save?name=" + name + "&email=" + email, {    // фетч запрос с константами на эндпоинт с указанием типа метода
-            method: "GET"
+        // Отправляем данные на сервер для регистрации
+        fetch('/api/admin/save', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name, email, password, role })
         })
-            .then(response => {                 // затем - проверка ответа сервера ,если ошибка - выдать ошибку
-                if (!response.ok) {
-                    throw new Error("Ошибка при создании пользователя");
-                }                                  // если всё верно - вернуть ответ ввиде JSON
-                return response.json();
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Ошибка при регистрации');
+                }
+            })
+            .then(data => {
+                // Обрабатываем успешный ответ, например, выводим сообщение об успешной регистрации
+                console.log('Пользователь зарегистрирован:', data);
             })
             .catch(error => {
-                console.error(error);                       // отлавливание ошибки
-                alert("Ошибка при создании пользователя");
+                // Обрабатываем ошибку
+                console.error('Ошибка:', error);
             });
     });
 </script>
-
 </body>
 </html>

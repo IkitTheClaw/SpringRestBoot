@@ -46,7 +46,7 @@
         const role = document.getElementById('role').value;
 
         // Отправляем данные на сервер для регистрации
-        fetch('/rest/save', {
+        fetch('/api/auth/save', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

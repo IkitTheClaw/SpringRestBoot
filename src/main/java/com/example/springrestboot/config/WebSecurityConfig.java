@@ -37,6 +37,7 @@ public class WebSecurityConfig {
                 ).formLogin(login -> login.loginPage("/login"));
         return http.build();
     }
+    //разрешить пользователю регистрировать только пользователя
 
     @Bean
     public DaoAuthenticationProvider daoAuthenticationConfigurer() {

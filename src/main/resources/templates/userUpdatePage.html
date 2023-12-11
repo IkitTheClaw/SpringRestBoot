@@ -42,7 +42,7 @@
         const role = document.getElementById('role').value;
 
         // Отправляем данные на сервер для обновления пользователя
-        fetch('/update/{id}', {
+        fetch('api/admin/update/{id}', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
