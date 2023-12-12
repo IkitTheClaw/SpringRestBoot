@@ -31,21 +31,20 @@ public class UserRestController {
     @GetMapping
     public ResponseEntity<List<User>> getUsers(@RequestParam(value = "word", required = false) String word) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            return ResponseEntity.ok(userService.searchUser(auth.getName()));
+            return ResponseEntity.ok(List.of(userService.getUserByName(auth.getName())));
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteUserById(@PathVariable Long id) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();       // проверить защиту
-        userService.deleteUserByUserid(id);
+        userService.deleteUserByUserid(userService.getUserByName(auth.getName()).getId());
         return ResponseEntity.status(HttpStatus.OK).body("Пользователь удалён");
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody User user) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User updatingUser = auth;
-
+            User updatingUser = (User) auth.getPrincipal();
         if (updatingUser != null) {
             updatingUser.setName(user.getName());
             updatingUser.setEmail(user.getEmail());
@@ -54,6 +53,7 @@ public class UserRestController {
             }
             userService.save(updatingUser);
         }
+
         return ResponseEntity.ok("Пользователь обновлён");
     }
 }
