@@ -1,5 +1,6 @@
 package com.example.springrestboot.services;
 
+import com.example.springrestboot.exceptions.UserNotFoundExceprion;
 import com.example.springrestboot.model.User;
 import com.example.springrestboot.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Transactional
+
 @Component
 public class UserServiceIml implements UserService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -24,7 +25,7 @@ public class UserServiceIml implements UserService {
 
     @Override
     public final User getUserById(Long id) {
-        return userRepository.findUserById(id).orElseThrow(RuntimeException::new);
+        return userRepository.findUserById(id).orElseThrow(() -> new UserNotFoundExceprion("user not found with id = " + id));
     }
     //реализация метода возвращающего пользователя по id
 
@@ -54,7 +55,7 @@ public class UserServiceIml implements UserService {
 
     @Override
     public List<User> searchUser(String word) {
-        return userRepository.findByNameContainingIgnoreCaseOrEmailContainingIgnoreCaseOrderByName(word,word);
+        return userRepository.findByNameContainingIgnoreCaseOrEmailContainingIgnoreCaseOrderByName(word, word);
     }
     //реализация метода удаляющего пользователя из бд
 }

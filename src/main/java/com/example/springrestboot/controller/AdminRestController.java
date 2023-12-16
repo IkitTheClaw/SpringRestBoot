@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -46,6 +47,7 @@ public class AdminRestController {
         return ResponseEntity.status(HttpStatus.OK).body("Пользователь удалён");
     }
 
+
     @PutMapping("/update/{id}")
     public ResponseEntity<String> updateUser(@PathVariable Long id,@RequestBody User user){
         User updatingUser = userService.getUserById(id);
@@ -61,6 +63,6 @@ public class AdminRestController {
         return ResponseEntity.ok("Пользователь обновлён");
     }
     //сделать форму обновления +
-    //разделить USER и ADMIN контроллеры
+    //разделить USER и ADMIN контроллеры +
     // ...
 }
