@@ -28,13 +28,12 @@
         </select>
     </div>
     <div>
-        <button type="submit">Обновить пользователя</button>
+        <button type="submit" onclick="saveChanges(user.id)">Обновить пользователя</button>
     </div>
 </form>
 
 <script>
-    document.getElementById('updateUserForm').addEventListener('submit', function(event) {
-        event.preventDefault();
+   function saveChanges(id){
 
         const name = document.getElementById('name').value;
         const email = document.getElementById('email').value;
@@ -42,7 +41,7 @@
         const role = document.getElementById('role').value;
 
         // Отправляем данные на сервер для обновления пользователя
-        fetch('api/admin/update/{id}', {
+        fetch('/api/admin/update/' + id, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -64,7 +63,7 @@
                 // Обрабатываем ошибку
                 console.error('Ошибка:', error);
             });
-    });
+    };
 </script>
 </body>
 </html>

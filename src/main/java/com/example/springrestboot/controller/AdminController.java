@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @Controller
-@RequestMapping("/admin/")
+@RequestMapping("/admin")
 public class AdminController {
     private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
     private final UserService userService;
@@ -23,7 +23,7 @@ public class AdminController {
         this.userService = userService;
     }
 
-    @GetMapping("update/{id}")
+    @GetMapping("/update/{id}")
     public String updateUser(@PathVariable Long id) {
 
         User user = userService.getUserById(id);
