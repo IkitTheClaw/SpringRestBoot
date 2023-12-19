@@ -48,7 +48,7 @@ public class AdminRestController {
     }
 
 
-    @PutMapping("/update/{id}")
+    @PostMapping("/update/{id}")
     public ResponseEntity<String> updateUser(@PathVariable Long id,@RequestBody User user){
         User updatingUser = userService.getUserById(id);
 

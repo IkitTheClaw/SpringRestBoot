@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,16 +25,11 @@ public class AdminController {
     }
 
     @GetMapping("/update/{id}")
-    public String updateUser(@PathVariable Long id) {
+    public String updateUser(@PathVariable Long id, Model model) {
 
         User user = userService.getUserById(id);
         logger.info("User --> " + user);
-
-        UserDTO userDTO = new UserDTO();
-        userDTO.setName(user.getName());
-        userDTO.setEmail(user.getEmail());
-        userDTO.setPassword(user.getPassword());
-        userDTO.setRole(user.getAuthorities().toString());
+        model.addAttribute("user",user);
 
         return "userUpdatePage";
     }
