@@ -26,13 +26,11 @@ public class AdminController {
     }
 
     @GetMapping
-
     public String getAdminMainPage() {
         return "admin";
     }
 
     @GetMapping("/update/{id}")
-
     public String updateUser(@PathVariable Long id, Model model) {
 
         User user = userService.getUserById(id);

@@ -43,6 +43,9 @@
 <label for="searchName">Имя для поиска:</label>
 <input type="text" id="searchName" name="name">
 </form>
+<label for="userId">Введите ID пользователя:</label>
+<input type="text" id="userId" placeholder="Введите ID">
+<a id="updateLink" href="#" target="_blank">Обновить пользователя под id - </a>
 
 
 <script>
@@ -63,12 +66,7 @@
             deleteButton.onclick = function () {   // наполнение кнопки функционалом
                 deleteUser(user.id)
             }
-            const updateButton = document.createElement("button")
-            updateButton.textContent = 'update'
-            updateButton.onclick = function () {
-                updateUser(user.id)
-            }
-            listItem.appendChild(updateButton)
+
             listItem.appendChild(deleteButton)      //добавление элкмента кнопки в список атрибутов списка
             userList.appendChild(listItem);         // присваивание атрибутов списка - списку
         });
@@ -77,17 +75,6 @@
         modal.style.display = "block";
     }
 
-    function updateUser(id) {
-        fetch("http://localhost:8080/admin/update/" + id , {
-            method: "POST"
-        })
-            .then(response => {
-                if (!response.ok) {
-                    console.error(response.body)
-                }
-                return response.text()
-            })
-    }
     function deleteUser(id) {       //наполнение кнопки удаления функционалом
         fetch("http://localhost:8080/api/admin/delete/" + id, {     // обращение к эндпоинут с указанием типа метода
             method: "DELETE"
@@ -156,5 +143,36 @@
             });
     }
 </script>
+<script>
+    function updateUser() {
+        var userId = document.getElementById('userId').value;
+        fetch("http://localhost:8080/admin/update/" + userId, {
+            method: "GET"
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Data:', data);
+                // Обработка полученных данных
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Обработка ошибок
+            });
+    }
+</script>
+<script>
+    document.getElementById("userId").addEventListener("input", function() {
+        var userId = document.getElementById("userId").value;
+        var updateLink = document.getElementById("updateLink");
+        updateLink.setAttribute("href", "http://localhost:8080/admin/update/" + userId);
+        updateLink.textContent = "Обновить пользователя под id " + userId;
+    });
+</script>
+
 </body>
 </html>
