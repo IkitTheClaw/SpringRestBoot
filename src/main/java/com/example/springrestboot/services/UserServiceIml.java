@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-
+@Transactional
 @Component
 public class UserServiceIml implements UserService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -24,6 +24,7 @@ public class UserServiceIml implements UserService {
     }
 
     @Override
+
     public final User getUserById(Long id) {
         return userRepository.findUserById(id).orElseThrow(() -> new UserNotFoundExceprion("user not found with id = " + id));
     }

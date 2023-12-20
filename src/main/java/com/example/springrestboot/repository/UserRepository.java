@@ -1,6 +1,7 @@
 package com.example.springrestboot.repository;
 
 import com.example.springrestboot.model.User;
+import jakarta.transaction.Transactional;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
