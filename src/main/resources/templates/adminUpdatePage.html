@@ -15,7 +15,7 @@
 </head>
 <body>
 
-<form action="#" th:action="@{/api/user/update/{id}(id=${id})}" th:object="${user}" method="post">
+<form action="#" th:action="@{/api/admin/update/{id}(id=${id})}" th:object="${user}" method="post">
     <div class="form-group">
         <label for="exampleInputName">Name</label>
         <input type="text" name="name" class="form-control" id="exampleInputName" aria-describedby="NameHelp" th:field="*{name}">

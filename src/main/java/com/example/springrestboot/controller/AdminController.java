@@ -1,9 +1,7 @@
 package com.example.springrestboot.controller;
 
 import com.example.springrestboot.model.User;
-import com.example.springrestboot.model.dto.UserDTO;
 import com.example.springrestboot.services.UserService;
-import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +35,6 @@ public class AdminController {
         logger.info("User --> " + user);
         model.addAttribute("user",user);
 
-        return "userUpdatePage";
+        return "adminUpdatePage";
     }
 }

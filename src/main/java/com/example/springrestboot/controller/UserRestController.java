@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
 
@@ -35,14 +36,14 @@ public class UserRestController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteUserById(@PathVariable Long id) {
+    public RedirectView deleteUserById(@PathVariable Long id) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();       // проверить защиту
         userService.deleteUserByUserid(userService.getUserByName(auth.getName()).getId());
-        return ResponseEntity.status(HttpStatus.OK).body("Пользователь удалён");
+        return new RedirectView("/login");
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody User user) {
+    @PostMapping("/update/{id}")
+    public RedirectView updateUser(@PathVariable Long id, @ModelAttribute ("user") User user ) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User updatingUser = (User) auth.getPrincipal();
         if (updatingUser != null) {
@@ -54,6 +55,6 @@ public class UserRestController {
             userService.save(updatingUser);
         }
 
-        return ResponseEntity.ok("Пользователь обновлён");
+        return new RedirectView("/user");
     }
 }

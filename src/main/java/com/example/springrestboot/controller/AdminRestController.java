@@ -8,8 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
+import java.net.http.HttpClient;
 import java.util.List;
 
 @RestController
@@ -49,7 +50,7 @@ public class AdminRestController {
 
 
     @PostMapping("/update/{id}")
-    public ResponseEntity<String> updateUser(@PathVariable Long id,@ModelAttribute ("user") User user){
+    public RedirectView updateUser(@PathVariable Long id, @ModelAttribute ("user") User user){
         User updatingUser = userService.getUserById(id);
 
         if (updatingUser != null) {
@@ -60,7 +61,7 @@ public class AdminRestController {
             }
         userService.save(updatingUser);
         }
-        return ResponseEntity.ok("Пользователь обновлён");
+        return new RedirectView("/admin") ;
     }
     //сделать форму обновления +
     //разделить USER и ADMIN контроллеры +

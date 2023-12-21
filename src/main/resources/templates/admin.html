@@ -144,28 +144,6 @@
     }
 </script>
 <script>
-    function updateUser() {
-        var userId = document.getElementById('userId').value;
-        fetch("http://localhost:8080/admin/update/" + userId, {
-            method: "GET"
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('Data:', data);
-                // Обработка полученных данных
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                // Обработка ошибок
-            });
-    }
-</script>
-<script>
     document.getElementById("userId").addEventListener("input", function() {
         var userId = document.getElementById("userId").value;
         var updateLink = document.getElementById("updateLink");
