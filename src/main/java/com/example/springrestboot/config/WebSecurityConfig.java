@@ -33,7 +33,9 @@ public class WebSecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((requests) -> requests
-                        .anyRequest().permitAll()
+                        .requestMatchers("/login","/registration","/api/auth/**").permitAll()
+                        .requestMatchers("/user/**","/api/user/**").authenticated()
+                        .requestMatchers("/admin/**","/api/admin/**").hasRole("ADMIN")
                 ).formLogin(login -> login.loginPage("/login"));
         return http.build();
     }

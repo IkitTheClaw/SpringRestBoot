@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/auth" )
 public class AuthoriseRestController {
-    private final String USER_ROLE = "USER";
+    private final String USER_ROLE = "ROLE_USER";
     private final UserMapper userMapper;
     private final UserService userService;
 
